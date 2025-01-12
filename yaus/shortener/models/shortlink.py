@@ -12,7 +12,9 @@ class ShortLink(models.Model):
     original_url = models.CharField(max_length=512)
     passcode = models.CharField(max_length=64, blank=True, default="")
     salt = models.CharField(max_length=64, blank=True, default="")
-    redirect_string = models.CharField(max_length=8)
+    redirect_string = models.CharField(
+        max_length=64, unique=True, default=Utils.generate_redirect_string
+    )
     usage_count = models.IntegerField(default=0)
 
     owner = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
@@ -36,7 +38,7 @@ class ShortLink(models.Model):
             )
 
             self.salt = salt.hex()
-            self.passcode = hashlib.sha256(self.passcode.encode("utf-8")).hexdigest()
+            self.passcode = Utils.encode_sha256(self.passcode)
 
     def decode_url(self, passcode: str) -> str:
         if not self.passcode:

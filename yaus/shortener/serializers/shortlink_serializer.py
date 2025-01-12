@@ -33,6 +33,5 @@ class ShortLinkSerializer(serializers.ModelSerializer):
         shortlink = ShortLink(**validated_data)
         if validated_data.get("passcode"):
             shortlink.encode_fields()
-        shortlink.redirect_string = Utils.generate_redirect_string()
         shortlink.save()
         return shortlink
