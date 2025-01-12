@@ -1,9 +1,10 @@
 import hashlib
 import os
 
+from django.contrib.auth.models import User
 from django.db import models
 
-from .utils import Utils
+from yaus.shortener.utils import Utils
 
 
 class ShortLink(models.Model):
@@ -11,6 +12,9 @@ class ShortLink(models.Model):
     passcode = models.CharField(max_length=64, blank=True, default='')
     salt = models.CharField(max_length=64, blank=True, default='')
     redirect_string = models.CharField(max_length=8)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def encode_fields(self):
         if self.passcode:
