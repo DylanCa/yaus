@@ -14,7 +14,7 @@ class Utils:
         return hashlib.sha256(value.encode("utf-8")).hexdigest()
 
     @staticmethod
-    def generate_redirect_string(length: int = 5) -> str:
+    def generate_redirect_string(length: int = 6) -> str:
         characters = string.ascii_letters + string.digits
         return "".join(random.choices(characters, k=length))
 

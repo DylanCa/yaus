@@ -12,7 +12,9 @@ class ShortLink(models.Model):
     original_url = models.CharField(max_length=512)
     passcode = models.CharField(max_length=64, blank=True, default="")
     salt = models.CharField(max_length=64, blank=True, default="")
-    redirect_string = models.CharField(max_length=8)
+    redirect_string = models.CharField(
+        max_length=64, unique=True, default=Utils.generate_redirect_string
+    )
     usage_count = models.IntegerField(default=0)
 
     owner = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
