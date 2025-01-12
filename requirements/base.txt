@@ -1,2 +1,4 @@
-fastapi
+Django
+djangorestframework
+drf-yasg
 cryptography
