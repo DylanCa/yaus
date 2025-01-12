@@ -5,11 +5,11 @@ from yaus.shortener.models.shortlink import ShortLink
 from yaus.shortener.serializers.shortlink_serializer import ShortLinkSerializer
 
 
-class ShortlinkViewSet(viewsets.GenericViewSet, CreateModelMixin, RetrieveModelMixin, ListModelMixin, DestroyModelMixin):
+class ShortlinkViewSet(viewsets.GenericViewSet, CreateModelMixin, ListModelMixin, DestroyModelMixin):
     queryset = ShortLink.objects.all()
     serializer_class = ShortLinkSerializer
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            return ShortLink.objects.filter(owner=self.request.user).order_by("id")
+            return ShortLink.objects.filter(owner=self.request.user, deleted_at__isnull=True).order_by("id")
         return []

@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from rest_framework import serializers
 
 from yaus.shortener.models.shortlink import ShortLink
@@ -10,8 +12,8 @@ class ShortLinkSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ShortLink
-        fields = ['id', 'original_url', 'passcode', 'redirect_string', 'owner']
-        read_only_fields = ['id', 'redirect_string']
+        fields = ['id', 'original_url', 'passcode', 'redirect_string', 'owner', 'usage_count']
+        read_only_fields = ['id', 'redirect_string', 'usage_count']
 
     def validate(self, attrs):
         user = self.context["request"].user

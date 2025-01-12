@@ -29,12 +29,13 @@ class RedirectViewSet(GenericViewSet):
             return Response({}, status=status.HTTP_404_NOT_FOUND)
 
         if shortlink.passcode is '':
-            serializer = ShortLinkSerializer(shortlink, many=False)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            shortlink.increase_usage_count()
+            return Response({'url': shortlink.original_url}, status=status.HTTP_200_OK)
 
         passcode = self.query_params.get('passcode')
         if shortlink.passcode and passcode is None:
             return Response({'error': 'No passcode provided'}, status=status.HTTP_400_BAD_REQUEST)
 
         original_url = shortlink.decode_url(passcode)
-        return Response({'original_url': original_url}, status=status.HTTP_200_OK)
+        shortlink.increase_usage_count()
+        return Response({'url': original_url}, status=status.HTTP_200_OK)
