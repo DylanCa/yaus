@@ -15,27 +15,29 @@ class RedirectViewSet(GenericViewSet):
         method="GET",
         manual_parameters=[
             openapi.Parameter(
-                'passcode',
+                "passcode",
                 openapi.IN_QUERY,
                 type=openapi.TYPE_STRING,
             )
         ],
     )
-    @api_view(['GET'])
+    @api_view(["GET"])
     @renderer_classes([JSONRenderer])
     def redirect_to(self, redirect_string):
         shortlink = ShortLink.objects.filter(redirect_string=redirect_string).first()
         if shortlink is None:
             return Response({}, status=status.HTTP_404_NOT_FOUND)
 
-        if shortlink.passcode is '':
+        if shortlink.passcode is "":
             shortlink.increase_usage_count()
-            return Response({'url': shortlink.original_url}, status=status.HTTP_200_OK)
+            return Response({"url": shortlink.original_url}, status=status.HTTP_200_OK)
 
-        passcode = self.query_params.get('passcode')
+        passcode = self.query_params.get("passcode")
         if shortlink.passcode and passcode is None:
-            return Response({'error': 'No passcode provided'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {"error": "No passcode provided"}, status=status.HTTP_400_BAD_REQUEST
+            )
 
         original_url = shortlink.decode_url(passcode)
         shortlink.increase_usage_count()
-        return Response({'url': original_url}, status=status.HTTP_200_OK)
+        return Response({"url": original_url}, status=status.HTTP_200_OK)
