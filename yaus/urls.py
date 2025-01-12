@@ -20,6 +20,7 @@ schema_view = get_schema_view(
 
 
 router = routers.DefaultRouter()
+router.register(r'users', views.UserViewSet)
 router.register(r'shortener', views.ShortlinkViewSet)
 
 # Wire up our API using automatic URL routing.
