@@ -36,7 +36,7 @@ class ShortLink(models.Model):
             )
 
             self.salt = salt.hex()
-            self.passcode = hashlib.sha256(self.passcode.encode("utf-8")).hexdigest()
+            self.passcode = Utils.encode_sha256(self.passcode)
 
     def decode_url(self, passcode: str) -> str:
         if not self.passcode:

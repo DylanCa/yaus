@@ -1,4 +1,5 @@
 import base64
+import hashlib
 import string, random
 
 from cryptography.fernet import Fernet
@@ -8,6 +9,10 @@ from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 
 
 class Utils:
+    @staticmethod
+    def encode_sha256(value: str):
+        return hashlib.sha256(value.encode("utf-8")).hexdigest()
+
     @staticmethod
     def generate_redirect_string(length: int = 5) -> str:
         characters = string.ascii_letters + string.digits
