@@ -1,5 +1,4 @@
 import base64
-import os
 import string, random
 
 from cryptography.fernet import Fernet
