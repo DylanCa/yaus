@@ -23,7 +23,7 @@ jobs:
     - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        pip install -r requirements/base.txt
     - name: Run Linter
       uses: super-linter/super-linter@v7.1.0
     - name: Run Tests
