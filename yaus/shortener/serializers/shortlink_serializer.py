@@ -12,8 +12,15 @@ class ShortLinkSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ShortLink
-        fields = ['id', 'original_url', 'passcode', 'redirect_string', 'owner', 'usage_count']
-        read_only_fields = ['id', 'redirect_string', 'usage_count']
+        fields = [
+            "id",
+            "original_url",
+            "passcode",
+            "redirect_string",
+            "owner",
+            "usage_count",
+        ]
+        read_only_fields = ["id", "redirect_string", "usage_count"]
 
     def validate(self, attrs):
         user = self.context["request"].user
@@ -24,7 +31,7 @@ class ShortLinkSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         shortlink = ShortLink(**validated_data)
-        if validated_data.get('passcode'):
+        if validated_data.get("passcode"):
             shortlink.encode_fields()
         shortlink.redirect_string = Utils.generate_redirect_string()
         shortlink.save()

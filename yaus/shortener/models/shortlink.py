@@ -10,8 +10,8 @@ from yaus.shortener.utils import Utils
 
 class ShortLink(models.Model):
     original_url = models.CharField(max_length=512)
-    passcode = models.CharField(max_length=64, blank=True, default='')
-    salt = models.CharField(max_length=64, blank=True, default='')
+    passcode = models.CharField(max_length=64, blank=True, default="")
+    salt = models.CharField(max_length=64, blank=True, default="")
     redirect_string = models.CharField(max_length=8)
     usage_count = models.IntegerField(default=0)
 
